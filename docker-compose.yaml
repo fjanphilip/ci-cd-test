@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   laravel_app:
     image: ghcr.io/fjanphilip/ci-cd-test:latest
