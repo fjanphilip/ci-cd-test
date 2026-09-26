@@ -1,6 +1,6 @@
 FROM php:8.4-fpm-alpine
 
-# Install system dependencies & PHP extensions
+# Install system dependencies, PHP extensions, Nginx, Supervisor
 RUN apk add --no-cache \
     build-base \
     libpng-dev \
@@ -13,7 +13,9 @@ RUN apk add --no-cache \
     curl \
     oniguruma-dev \
     icu-dev \
-    libxml2-dev
+    libxml2-dev \
+    nginx \
+    supervisor
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath intl xml
@@ -26,11 +28,16 @@ WORKDIR /var/www
 # Copy seluruh file project
 COPY . .
 
-# PERBAIKAN: Tambahkan --no-scripts agar artisan package:discover tidak dieksekusi saat build
-RUN composer install --no-dev --optimize-autoloader --no-scripts 
+# Install dependencies PHP
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Fix permission folder storage dan bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Copy konfigurasi Nginx & Supervisor
+COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY supervisord.conf /etc/supervisord.conf
+
+EXPOSE 80
+
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]
