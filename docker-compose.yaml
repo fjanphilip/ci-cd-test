@@ -7,9 +7,14 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    volumes:
+      - storage_data:/var/www/storage
     networks:
-      - app-network
+      - shared-network
 
 networks:
-  app-network:
-    driver: bridge
+  shared-network:
+    external: true
+
+volumes:
+  storage_data:
