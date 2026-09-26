@@ -1,7 +1,7 @@
 services:
   laravel_app:
     image: ghcr.io/fjanphilip/ci-cd-test:latest
-    container_name: laravel_app
+    container_name: ci_cd_test_app
     restart: unless-stopped
     env_file:
       - .env
