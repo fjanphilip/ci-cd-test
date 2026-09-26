@@ -68,8 +68,8 @@ jobs:
             docker compose up -d --remove-orphans
 
             # Optimize & Migrate Laravel
-            docker exec laravel_app php artisan package:discover
-            docker exec laravel_app php artisan migrate --force
-            docker exec laravel_app php artisan config:cache
-            docker exec laravel_app php artisan route:cache
-            docker exec laravel_app php artisan view:cache
+            docker exec ci_cd_test_app php artisan package:discover
+            docker exec ci_cd_test_app php artisan migrate --force
+            docker exec ci_cd_test_app php artisan config:cache
+            docker exec ci_cd_test_app php artisan route:cache
+            docker exec ci_cd_test_app php artisan view:cache
