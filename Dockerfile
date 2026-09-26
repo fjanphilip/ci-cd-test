@@ -27,7 +27,7 @@ WORKDIR /var/www
 COPY . .
 
 # PERBAIKAN: Tambahkan --no-scripts agar artisan package:discover tidak dieksekusi saat build
-RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
+RUN composer install --no-dev --optimize-autoloader --no-scripts 
 
 # Fix permission folder storage dan bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
